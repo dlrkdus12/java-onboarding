@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     // Sign up
     EXIST_USERNAME(HttpStatus.BAD_REQUEST, "존재하는 유저네임입니다."),
+
     // Sign in
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자 조회에 실패했습니다."),
     SIGN_IN_ERROR(HttpStatus.BAD_REQUEST, "로그인에 실패했습니다.");
@@ -19,9 +20,6 @@ public enum ErrorCode {
     private final String message;
 
     ErrorCode(HttpStatus httpStatus, String message) {
-        this.status = httpStatus;
-        this.message = message;
+        this.status = httpStatus;this.message = message;
     }
-
-
 }

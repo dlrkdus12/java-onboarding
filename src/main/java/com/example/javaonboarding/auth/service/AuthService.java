@@ -1,14 +1,15 @@
 package com.example.javaonboarding.auth.service;
 
-import com.example.javaonboarding.common.enums.ErrorCode;
-import com.example.javaonboarding.common.exception.CustomException;
 import com.example.javaonboarding.auth.config.JwtUtil;
 import com.example.javaonboarding.auth.dto.request.SigninRequest;
 import com.example.javaonboarding.auth.dto.request.SignupRequest;
+import com.example.javaonboarding.auth.dto.response.SigninResponse;
 import com.example.javaonboarding.auth.dto.response.SignupResponse;
 import com.example.javaonboarding.auth.entity.User;
 import com.example.javaonboarding.auth.enums.UserRole;
 import com.example.javaonboarding.auth.repository.UserRepository;
+import com.example.javaonboarding.common.enums.ErrorCode;
+import com.example.javaonboarding.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,8 +45,8 @@ public class AuthService {
         return new SignupResponse(savedUser);
     }
 
-    public String signin(SigninRequest signinRequest) {
-
+    @Transactional
+    public SigninResponse signin(SigninRequest signinRequest) {
         User user = userRepository.findByUsername(signinRequest.getUsername()).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -54,6 +55,18 @@ public class AuthService {
             throw new CustomException(ErrorCode.SIGN_IN_ERROR);
         }
 
-        return jwtUtil.createToken(user.getId(), user.getUsername(), user.getNickname(), user.getUserRole());
+        // 액세스 토큰 생성
+        String accessToken = jwtUtil.createAccessToken(user.getId(), user.getUsername(), user.getUserRole());
+        SigninResponse signinResponse = new SigninResponse(accessToken);
+
+        // 리프레시 토큰 생성
+        String refreshToken = jwtUtil.createRefreshToken(user.getId(), signinResponse.getAccessToken());
+
+        log.info("userId : " + user.getId() + ", Login Success");
+        log.info("accessToken : " + signinResponse.getAccessToken());
+        log.info("refreshToken : " + refreshToken);
+
+        return signinResponse;
     }
+
 }

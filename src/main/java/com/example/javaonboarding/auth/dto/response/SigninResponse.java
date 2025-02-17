@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class SigninResponse {
-    private final String token;
+    private final String accessToken;
 
-    public SigninResponse(String token) {
-        this.token = token.replace("Bearer ", ""); // "Bearer " 제거
+    public SigninResponse(String accessToken) {
+        this.accessToken = accessToken.replace("Bearer ", ""); // "Bearer " 제거
     }
 }

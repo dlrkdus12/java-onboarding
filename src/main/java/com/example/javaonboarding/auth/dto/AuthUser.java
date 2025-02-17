@@ -14,6 +14,7 @@ public class AuthUser {
     private final String username;
     private final UserRole role;
 
+
     public AuthUser(Long userId, String username, UserRole role) {
         this.userId = userId;
         this.username = username;
@@ -23,4 +24,5 @@ public class AuthUser {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
 }

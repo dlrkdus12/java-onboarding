@@ -48,32 +48,29 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             String accessToken = jwtUtil.resolveToken(httpRequest);
             log.info("Cookie Access token: {}", accessToken);
 
-            boolean verify = jwtUtil.verifyToken(accessToken);
-
             // 액세스 토큰 만료 검증
             try {
-                if (verify) {
-                    Claims claims = jwtUtil.extractClaims(accessToken);
+                Claims claims = jwtUtil.verifyToken(accessToken); // ✅ 유효하면 claims 반환, 만료되면 예외 발생
+                log.info("claims : {}",claims.toString());
 
-                    Long userId = Long.valueOf(claims.getSubject());
-                    String username = claims.get("username", String.class);
-                    UserRole userRole = UserRole.of(claims.get("userRole", String.class));
+                Long userId = Long.valueOf(claims.getSubject());
+                String username = claims.get("username", String.class);
+                UserRole userRole = UserRole.of(claims.get("userRole", String.class));
 
-                    AuthUser authUser = new AuthUser(userId, username, userRole);
-                    JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(authUser);
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                }
+                AuthUser authUser = new AuthUser(userId, username, userRole);
+                JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(authUser);
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } catch (ExpiredJwtException c) {
                 log.info("️🦄엑세스 토큰 만료 됨");
                 log.error("Expired JWT token, 만료된 JWT token 입니다.", c);
 
                 RefreshToken refreshToken = refreshTokenService.getRefreshToken(accessToken);
-                log.info("Refresh token: {}", refreshToken.getRefreshToken());
+                log.info("Refresh token 조회: {}", refreshToken.getRefreshToken());
 
+                // 리프레시 토큰 만료 검증
                 try {
-                    // 리프레시 만료기한이 현재보다 후(충분하면)이면 true
-                    if (jwtUtil.verifyToken(refreshToken.getRefreshToken())) {
+                    if (jwtUtil.verifyToken(refreshToken.getRefreshToken()) != null) {
                         log.info("️🦄리프레시 토큰 만료 전");
                         String newAccessToken = refreshTokenService.reCreateAccessToken(accessToken, refreshToken);
                         log.info("new 액세스 토큰 발급: {}", newAccessToken);

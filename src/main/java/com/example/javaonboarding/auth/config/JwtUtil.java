@@ -75,22 +75,11 @@ public class JwtUtil {
     }
 
     // 유효한 엑세스 토큰인지 검증
-    public boolean verifyToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parser() // Jwts.parser() 파서를 생성한다. 생성된 파서로 토큰을 파싱하고 서명을 확인할 수 있다.)
-                    .setSigningKey(secretKey) // 비밀키를 설정하여 파싱한다.
-                    .parseClaimsJws(token);  // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
-
-            // 만료 시간 체크
-            Date expiration = claims.getBody().getExpiration();
-            return expiration.after(new Date());
-        } catch (ExpiredJwtException e) {
-            log.error("❌ 만료된 토큰: " + e.getMessage());
-
-        } catch (Exception e) {
-            log.error("❌ 토큰 검증 실패: " + e.getMessage());
-        }
-        return  true;
+    public Claims verifyToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody(); // ✅ 유효하면 Claims 반환, 만료되면 ExpiredJwtException 발생
     }
 
     public String substringToken(String tokenValue) {

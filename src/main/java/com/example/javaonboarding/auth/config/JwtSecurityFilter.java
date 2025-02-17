@@ -46,7 +46,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             log.info("🐝Header JWT token: {}", jwt);
 
             String accessToken = jwtUtil.resolveToken(httpRequest);
-            log.info("Cookie Access token: {}", accessToken);
+            log.info("🐝Cookie Access token: {}", accessToken);
 
             // 액세스 토큰 만료 검증
             try {

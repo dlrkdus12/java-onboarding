@@ -47,8 +47,8 @@ public class AuthService {
 
     @Transactional
     public SigninResponse signin(SigninRequest signinRequest) {
-        User user = userRepository.findByUsername(signinRequest.getUsername()).orElseThrow(
-                () -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByUsername(signinRequest.getUsername())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         // 로그인 시 이메일과 비밀번호가 일치하지 않을 경우 401을 반환합니다.
         if (!passwordEncoder.matches(signinRequest.getPassword(), user.getPassword())) {

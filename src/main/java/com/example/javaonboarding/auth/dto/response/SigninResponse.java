@@ -7,6 +7,6 @@ public class SigninResponse {
     private final String accessToken;
 
     public SigninResponse(String accessToken) {
-        this.accessToken = accessToken.replace("Bearer ", ""); // "Bearer " 제거
+        this.accessToken = accessToken; // "Bearer " 제거
     }
 }

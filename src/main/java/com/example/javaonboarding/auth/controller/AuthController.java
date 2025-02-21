@@ -41,7 +41,9 @@ public class AuthController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token.getAccessToken());
+
         SigninResponse signinResponse = new SigninResponse(token.getAccessToken());
+
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(signinResponse);

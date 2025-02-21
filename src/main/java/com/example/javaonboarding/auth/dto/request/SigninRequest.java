@@ -1,9 +1,13 @@
 package com.example.javaonboarding.auth.dto.request;
 
+import com.example.javaonboarding.auth.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@NoArgsConstructor
 public class SigninRequest {
 
     private String username;
@@ -15,4 +19,5 @@ public class SigninRequest {
         this.username = username;
         this.password = password;
     }
+
 }

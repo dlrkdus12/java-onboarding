@@ -57,7 +57,8 @@ public class AuthService {
 
         // 액세스 토큰 생성
         String accessToken = jwtUtil.createAccessToken(user.getId(), user.getUsername(), user.getUserRole());
-        SigninResponse signinResponse = new SigninResponse(accessToken);
+        String token = accessToken.replace("Bearer ", "");
+        SigninResponse signinResponse = new SigninResponse(token);
 
         // 리프레시 토큰 생성
         String refreshToken = jwtUtil.createRefreshToken(user.getId(), signinResponse.getAccessToken());

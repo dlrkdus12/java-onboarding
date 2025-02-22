@@ -38,6 +38,18 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             @NonNull FilterChain chain
     ) throws ServletException, IOException {
 
+        String requestURI = httpRequest.getRequestURI(); // httpRequest 사용!
+
+        log.info("Request URI: {}", requestURI);
+
+        // Swagger 관련 요청 필터 제외
+        if (requestURI.startsWith("/swagger-ui")
+                || requestURI.startsWith("/api-docs")
+                || requestURI.equals("/swagger-ui.html")) {
+            chain.doFilter(httpRequest, httpResponse);
+            return;
+        }
+
         String authorizationHeader = httpRequest.getHeader("Authorization");
         // 액세스 토큰 검증
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

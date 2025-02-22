@@ -1,23 +1,21 @@
 package com.example.javaonboarding.auth.dto.request;
 
-import com.example.javaonboarding.auth.entity.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class SigninRequest {
 
+    @Schema(description = "User's username", example = "Bob")
     private String username;
 
     @NotBlank(message = "비밀번호는 공백일 수 없습니다.")
+    @Schema(description = "User's password", example = "securePassword123")
     private String password;
-
-    public SigninRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
 }

@@ -41,15 +41,15 @@ Swagger UI를 사용하여 API 문서를 자동으로 생성하고 제공합니�
 Swagger UI에 접근하여 실시간으로 API 요청을 테스트할 수 있습니다.
 
 Swagger UI 주소:
-•	http://localhost:8777/swagger-ui.html
+http://localhost:8777/swagger-ui.html
 이 링크를 통해 API의 엔드포인트를 확인하고, 직접 요청을 보내볼 수 있습니다.
 
 주요 API 엔드포인트:
 1. 회원가입
-> - POST /signup 
+> - POST: /auth/signup 
 > - 요청: username, password 포함
 > - 응답: accessToken, refreshToken
 2.	로그인
-> - POST /signin 
+> - POST: /auth/signin 
 > - 요청: username, password 포함 
 > - 응답: accessToken (쿠키 및 Authorization 헤더 포함)

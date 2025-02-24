@@ -1,13 +1,9 @@
-# Java-onboarding
-
-<br/>
-
 ## 🛡️ JWT 기반 인증 및 토큰 만료 처리 (Spring Security)
 #### 이 프로젝트에서는 JWT 기반 인증 시스템을 구현하여 Access Token과 Refresh Token을 사용하고, Redis를 이용한 Refresh Token 저장으로 보안성과 성능을 최적화하였습니다.
 
 <br/>
 
-### 📌 전체 흐름
+## 📌 전체 흐름
 1. 클라이언트가 로그인을 하면, **Access Token**과 **Refresh Token**을 발급받음.
 2. 인증이 필요한 요청에서 클라이언트는 **Access Token**을 포함하여 서버에 요청.
 3. 서버는 **Access Token**을 검증하여 유효하면 요청을 처리.
@@ -19,7 +15,7 @@
 
 <br/>
 
-### 🚀 테스트 코드
+## 🚀 테스트 코드
 이 프로젝트는 JWT 인증 관련 기능을 테스트하는 코드입니다. 아래의 테스트는 Access Token과 Refresh Token의 생성 및 검증, 그리고 쿠키에서 JWT를 추출하는 로직을 포함합니다.
 > 1. Access Token 생성 및 검증
 > * createAccessToken 메서드를 사용하여 액세스 토큰을 생성하고, 반환된 토큰이 Bearer로 시작하는지 검증합니다.
@@ -36,7 +32,7 @@
 
 <br/>
 
-### 📜 Swagger API 문서화
+## 📜 Swagger API 문서화
 Swagger UI를 사용하여 API 문서를 자동으로 생성하고 제공합니다.
 Swagger UI에 접근하여 실시간으로 API 요청을 테스트할 수 있습니다.
 
